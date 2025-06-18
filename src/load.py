@@ -2,8 +2,12 @@ import os
 from dotenv import load_dotenv
 import psycopg
 from datetime import date
+import logging
 
 load_dotenv()
+
+logger = logging.getLogger('load.py')
+logging.basicConfig(filename='lms-etl.log', level=logging.DEBUG)
 
 db_name = os.getenv('DB_NAME')
 db_user = os.getenv('DB_USER')
@@ -38,7 +42,7 @@ collections_table_creation = """
 
 def start():
     with psycopg.connect(f'dbname={db_name} user={db_user} password={db_password}') as conn, \
-        open(f"output/transformed_{today}", 'r'):
+        open(f"output/transformed_{today}.json", 'r'):
         with conn.cursor() as cur:
             cur.execute(collections_table_creation)
 
@@ -48,3 +52,4 @@ def load_transformed_books():
 
 if __name__ == '__main__':
     start()
+    print('Loading Done')
