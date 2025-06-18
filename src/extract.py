@@ -2,91 +2,72 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
-from datetime import date
+from datetime import date, datetime
 import time
+import logging
 
 load_dotenv
 
 google_api_key = os.getenv('GOOGLE_API_KEY')
+google_header = {'key': google_api_key}
+open_lib_header = {'User-Agent': 'Kalar-LMS nick@kalar.codes'}
+
 today = date.today()
 
-def extract_book_json(url, header):
+logger = logging.getLogger('extract.py')
+logging.basicConfig(filename='lms-etl.log', level=logging.DEBUG)
+
+def extract_book_json(url, header=[]):
+    '''
+        Returns a dictionary (JSON) of books or an empty dictionary on error.
+
+        Keyword arguments:
+        url    -- the url used to make the request.
+        header -- the optional headers passed to specify things needed for the queries, like API keys.
+    '''
     try:
         response = requests.get(url, headers=header)
         response.raise_for_status()
     except requests.exceptions.HTTPError as err:
-        raise SystemError(err)
+        logger.error(f'An error occurred: {err}')
+        return {}
     return response.json()
 
-class GoogleBooks():
-    header = {'key': google_api_key}
-    fields = "items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate," \
-    "volumeInfo/publisher,volumeInfo/categories,volumeInfo/pageCount,volumeInfo/printType)"
+def get_google_book_data(query, offset=0):
+    '''
+        Returns a dictionary of books from the Google Books API based on a query.
 
-    def fetch_book_data_by_author(self, author, offset=0):
-        author = author.replace(' ', '+')
-        url = (f'https://www.googleapis.com/books/v1/volumes?q=inauthor:{author}'
-               f'&fields={self.fields}&startIndex={offset}')
+        Keyword arguments:
+        query  --
+        offset -- the optional page offset for a query. Google Books API limits the number 
+                  of responses per query and returns an ordered list. This allows you to skip 
+                  the first x number of responses.
+    '''
+    query = query.replace(' ', '+')
+    fields = ("items(volumeInfo/title,volumeInfo/authors,volumeInfo/publishedDate,"
+            "volumeInfo/publisher,volumeInfo/categories,volumeInfo/pageCount,volumeInfo/printType)")
+    url = (f'https://www.googleapis.com/books/v1/volumes?q={query}'
+            f'&fields={fields}&startIndex={offset}')
+    return extract_book_json(url, google_header)
 
-        return extract_book_json(url, self.header)
-
-
-    def fetch_book_data_by_title(self, title, offset=0):
-        title = title.replace(' ', '+')
-        url = (f'https://www.googleapis.com/books/v1/volumes?q=intitle:{title}'
-               f'&fields={self.fields}&startIndex={offset}')
-        
-        return extract_book_json(url, self.header)
-
-
-    def fetch_book_data_by_genre(self, genre, offset=0):
-        genre = genre.replace(' ', '+')
-        url = (f'https://www.googleapis.com/books/v1/volumes?q=subject:{genre}'
-               f'&fields={self.fields}&startIndex={offset}')
-        
-        return extract_book_json(url, self.header)
+def get_open_library_book_data(query, offset=0):
+    '''
     
-    def fetch_book_data_by_query(self, query, offset=0):
-        url = (f'https://www.googleapis.com/books/v1/volumes?q={query}'
-               f'&fields={self.fields}&startIndex={offset}')
-        
-        return extract_book_json(url, self.header)
-        
-
-class OpenLibrary():
-    header = {'User-Agent': 'Kalar-LMS nick@kalar.codes'}
+    '''
+    query = query.replace(' ', '+')
     fields = 'author_name,title,isbn'
+    url = f'https://openlibrary.org/search.json?{query}&lang=en&fields={fields}'
 
-    def fetch_book_data_by_author(self, author):
-        author = author.replace(' ', '+')
-        url = f'https://openlibrary.org/search.json?author={author}&lang=en&fields={self.fields}'
-        
-        return extract_book_json(url, self.header)
-
-    def fetch_book_data_by_title(self, title):
-        title = title.replace(' ', '+')
-        url = f'https://openlibrary.org/search.json?title={title}&lang=en&fields={self.fields}'
-
-        return extract_book_json(url, self.header)
-
-    def fetch_book_data_by_genre(self, genre):
-        genre = genre.replace(' ', '+')
-        url = f'https://openlibrary.org/search.json?subject={genre}&lang=en&fields={self.fields}'
-
-        return extract_book_json(url, self.header)
+    return extract_book_json(url, open_lib_header)
 
 
 def start():
     titles = []
+    google_books_array = []
+    open_lib_array = []
     with open('config/title.txt', 'r') as google_books_file:
         for line in google_books_file:
             titles.append(line.strip())
-
-    google_books = GoogleBooks()
-    open_lib = OpenLibrary()
-
-    google_books_array = []
-    open_lib_array = []
 
     with open(f'output/raw_google_books_{today}.json', 'w') as google_books_file, \
          open(f'output/raw_open_lib_books_{today}.json', 'w') as open_lib_file:
@@ -94,16 +75,17 @@ def start():
         open_lib_file.write('{"book_data":')
     
         for title in titles:
-            open_lib_books = open_lib.fetch_book_data_by_title(title)
+            open_lib_query = f'title={title}'
+            open_lib_books = get_open_library_book_data(open_lib_query)
             for books in open_lib_books['docs']:
-                print(str(books))
+                logger.debug(f'{datetime.now()}:Book found: {str(books)}')
                 if 'author_name' in books \
                 and 'title' in books \
                 and 'isbn' in books:
                     for isbn in books['isbn']:
                         if len(isbn) == 13:
-                            query = 'isbn:' + isbn
-                            google_book_info = google_books.fetch_book_data_by_query(query)
+                            google_query = 'isbn:' + isbn
+                            google_book_info = get_google_book_data(google_query)
 
                             if google_book_info != {}:
                                 potential_ol_book = books
@@ -119,4 +101,6 @@ def start():
     
 
 if __name__ == '__main__':
+    print('Starting Extraction.')
     start()
+    print('Extraction done.')
