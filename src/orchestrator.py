@@ -1,14 +1,14 @@
+import os
+import sys
 import extract
 import transform
 import load
 import logging
-import os
-import sys
 from datetime import date, datetime
 
 logger = logging.getLogger('orchestrator.py')
+logging.basicConfig(filename=os.getenv('LOG_FILE'), level=os.getenv('LOGGING_LEVEL'))
 
-logging.basicConfig(filename='lms-etl.log', level=logging.DEBUG)
 today = date.today()
 
 if __name__ == '__main__':
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         sys.exit(1)
     logger.info(f'{datetime.now()}:Loading completed.')
     
-    # os.remove(f'output/raw_google_books_{today}.json')
-    # os.remove(f'output/raw_open_lib_books_{today}.json')
-    # os.remove(f'output/transformed_{today}.json')
+    os.remove(f'output/raw_google_books_{today}.json')
+    os.remove(f'output/raw_open_lib_books_{today}.json')
+    os.remove(f'output/transformed_{today}.json')
     logger.info(f'{datetime.now()}:Orchestration complete. ETL Pipeline executed without errors.')
