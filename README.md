@@ -1,5 +1,5 @@
 # LMS-DB-ETL
-An Extract, Transform, Load app to gather book information from public API for a POC LMS project
+An Extract, Transform, Load app to gather book information from public APIs for a POC LMS project
 
 Environmental Variables:
 `GOOGLE_API_KEY` - API Key required for using the Google Books API.
@@ -25,3 +25,22 @@ retreival later.
 Handles the orchestration of each program being ran one after the other. Ensures each  
 executes with no fatal errors before moving on to the next. Also cleans up files created  
 by the programs before ending.
+
+## config/title.txt
+A file with a list of book titles. Titles do not need to be in order, however each title
+needs to be on its own line and any special characters should be escaped.
+
+## How To Use
+1) Create a virtual environment (optional, but best practice)
+2) Use Pip to install all required packages 
+```python
+pip install -r requirements
+```
+3) Run the Orchestrator:
+```python
+python src/orchestrator.py
+```
+OR
+```python
+python3 src/orchestrator.py
+```
