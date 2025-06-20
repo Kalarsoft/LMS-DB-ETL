@@ -14,7 +14,7 @@ google_header = {'key': google_api_key}
 open_lib_header = {'User-Agent': 'Kalar-LMS nick@kalar.codes'}
 
 logger = logging.getLogger('extract.py')
-logging.basicConfig(filename=os.getenv('LOG_FILE'), level=os.getenv('LOGGING_LEVEL'))
+logging.basicConfig(filename=os.getenv('LOG_FILE'), level=logging.INFO)
 
 today = date.today()
 
