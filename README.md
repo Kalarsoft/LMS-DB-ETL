@@ -7,8 +7,6 @@ Environmental Variables:
 `DB_USER`        - The authorized user for the database.  
 `DB_PASSWORD`    - The Password to access the database.  
 `LOG_FILE`       - The file location for logs to be saved to.  
-`LOGGING_LEVEL`  - The logging level desired for operation. `logging.INFO` is standard,    
-                   but `logging.DEBUG` can be used for more insight and `logging.ERROR` if only issues are needed.  
 
 ## extract.py
 The extract.py file contains functions to pull data related to books from different APIs.

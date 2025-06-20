@@ -8,7 +8,7 @@ from datetime import date, datetime
 load_dotenv()
 
 logger = logging.getLogger('load.py')
-logging.basicConfig(filename=os.getenv('LOG_FILE'), level=os.getenv('LOGGING_LEVEL'))
+logging.basicConfig(filename=os.getenv('LOG_FILE'), level=logging.INFO)
 
 db_name = os.getenv('DB_NAME')
 db_user = os.getenv('DB_USER')

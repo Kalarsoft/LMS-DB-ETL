@@ -7,7 +7,7 @@ import logging
 from datetime import date, datetime
 
 logger = logging.getLogger('orchestrator.py')
-logging.basicConfig(filename=os.getenv('LOG_FILE'), level=os.getenv('LOGGING_LEVEL'))
+logging.basicConfig(filename=os.getenv('LOG_FILE'), level=logging.INFO)
 
 today = date.today()
 
