@@ -26,13 +26,21 @@ def extract_book_json(url, header=[]):
         url    -- the url used to make the request.
         header -- the optional headers passed to specify things needed for the queries, like API keys.
     '''
-    try:
-        response = requests.get(url, headers=header)
-        response.raise_for_status()
-    except requests.exceptions.HTTPError as err:
-        logger.error(f'An error occurred: {err}')
-        return {}
-    return response.json()
+    attempts = 0
+    max_attempts = 5
+    response_json = {}
+    while attempts < max_attempts:
+        try:
+            response = requests.get(url, headers=header)
+            response.raise_for_status()
+            response_json = response.json()
+            break
+        except requests.exceptions.HTTPError as err:
+            logger.error(f'An error occurred: {err}')
+            time.sleep(.25)
+            attempts += 1
+            continue
+    return response_json
 
 def get_google_book_data(query, offset=0):
     '''
@@ -88,7 +96,6 @@ def start():
             open_lib_query = f'title={title}'
             open_lib_books = get_open_library_book_data(open_lib_query)
             for books in open_lib_books['docs']:
-                logger.info(f'{datetime.now()}:Book found: {str(books)}')
                 if 'author_name' in books \
                 and 'title' in books \
                 and 'isbn' in books:
@@ -98,9 +105,13 @@ def start():
                             google_book_info = get_google_book_data(google_query)
 
                             if google_book_info != {}:
-                                potential_ol_book = books
-                                potential_ol_book['isbn'] = isbn
-
+                                potential_ol_book = {
+                                    '_timestamp': str(datetime.now()),
+                                    'author_name': books['author_name'],
+                                    'title': books['title'],
+                                    'isbn': isbn,
+                                }
+                                logger.info(f'{datetime.now()}:Book found: {str(potential_ol_book)}')
                                 open_lib_array.append(potential_ol_book)
                                 google_books_array.append(google_book_info['items'][0])
                             time.sleep(.5)

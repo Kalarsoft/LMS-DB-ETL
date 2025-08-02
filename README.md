@@ -9,7 +9,7 @@ Environmental Variables:
 `LOG_FILE`       - The file location for logs to be saved to.  
 
 ## extract.py
-The extract.py file contains functions to pull data related to books from different APIs.
+The extract.py file contains functions to pull data related to books from different APIs. Currently, this project uses the Google Books and OpenLibrary APIs. The former being the only one that needs an API key.
 
 ## transform.py
 Takes the raw JSON stored by extract.py and transforms the entries into a single entry whose keys  

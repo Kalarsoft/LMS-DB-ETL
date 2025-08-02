@@ -48,7 +48,7 @@ def combine_raw_jsons(google_json, ol_json):
         transformed_dictionary_entry = {}
         replace_quote = str.maketrans({"'": r"_"})
         
-        title = str(ol_json['book_data'][index]['title']).translate(replace_quote)
+        title = str(google_json['book_data'][index]['volumeInfo']['title']).translate(replace_quote)
         author = ', '.join(ol_json['book_data'][index]['author_name']).translate(replace_quote)
         isbn = ol_json['book_data'][index]['isbn']
         sort_title = format_sort_title(title)

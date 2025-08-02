@@ -45,7 +45,7 @@ def start():
     with psycopg.connect(f'dbname={db_name} user={db_user} password={db_password}') as conn, \
         open(f'output/transformed_{today}.json', 'r') as transformed_books:
         with conn.cursor() as cur:
-            cur.execute(f'DROP TABLE IF EXISTS Collection_Item') # TODO: REMOVE WHEN TESTING COMPLETED
+            # cur.execute(f'DROP TABLE IF EXISTS Collection_Item') # TODO: REMOVE WHEN TESTING COMPLETED
             cur.execute(collections_table_creation)
             books = json.loads(transformed_books.read())
 
