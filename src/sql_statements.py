@@ -1,6 +1,3 @@
-
-
-
 collections_table_creation = '''
                     CREATE TABLE IF NOT EXISTS Collection_Item(
                         "id" BIGSERIAL PRIMARY KEY,
@@ -28,13 +25,13 @@ collections_table_creation = '''
 
 
 def collection_insert_statement(book):
-    return 'INSERT INTO Collection_Item ' \
-    '(title, author, publisher, publishing_date, isbn, sort_title, format, '\
-    'language, categories, page_count, is_checked_in, is_archived, is_lost) '\
-    f'VALUES (\'{book['title']}\', \'{book['author']}\', '\
-    f'\'{book['publisher']}\', \'{book['publishing_date']}\', '\
-    f'\'{book['isbn']}\', \'{book['sort_title']}\',' \
-    f'\'{book['format']}\', \'{book['language']}\', '\
-    f'\'{book['categories']}\', \'{book['page_count']}\', '\
-    f'\'{book['is_checked_in']}\', \'{book['is_archived']}\', '\
-    f'\'{book['is_lost']}\');'
+    return ('INSERT INTO Collection_Item ' 
+    '(title, author, publisher, publishing_date, isbn, sort_title, format, '
+    'language, categories, page_count, is_checked_in, is_archived, is_lost) '
+    f'VALUES (\'{book['title']}\', \'{book['author']}\', '
+    f'\'{book['publisher']}\', \'{book['publishing_date']}\', '
+    f'\'{book['isbn']}\', \'{book['sort_title']}\',' 
+    f'\'{book['format']}\', \'{book['language']}\', '
+    f'\'{book['categories']}\', \'{book['page_count']}\', '
+    f'\'{book['is_checked_in']}\', \'{book['is_archived']}\', '
+    f'\'{book['is_lost']}\');')
