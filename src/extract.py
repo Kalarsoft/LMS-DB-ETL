@@ -6,7 +6,6 @@ import json
 from dotenv import load_dotenv
 from datetime import date, datetime
 
-
 load_dotenv
 
 google_api_key = os.getenv('GOOGLE_API_KEY')
