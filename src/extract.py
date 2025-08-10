@@ -79,12 +79,12 @@ def get_open_library_book_data(query, offset=0):
 
 
 def start():
-    titles = []
+    titles = None
     google_books_array = []
     open_lib_array = []
-    with open('config/title.txt', 'r') as google_books_file:
-        for line in google_books_file:
-            titles.append(line.strip())
+
+    with open('config/title.json', 'r') as title_json:
+        titles = json.loads(title_json.read())
 
     with open(f'output/raw_google_books_{today}.json', 'w') as google_books_file, \
          open(f'output/raw_open_lib_books_{today}.json', 'w') as open_lib_file:
@@ -92,7 +92,7 @@ def start():
         open_lib_file.write('{"book_data":')
     
         for title in titles:
-            open_lib_query = f'title={title}'
+            open_lib_query = f'title={title['title']}'
             open_lib_books = get_open_library_book_data(open_lib_query)
             for books in open_lib_books['docs']:
                 if 'author_name' in books \
@@ -109,6 +109,11 @@ def start():
                                     'author_name': books['author_name'],
                                     'title': books['title'],
                                     'isbn': isbn,
+                                    'loc_number': title['loc_number'],
+                                    'dewey_decimal_number': title['dewey_decimal_number'],
+                                    'description': title['description'],
+                                    'price_in_cents': title['price_in_cents'],
+                                    'cover_image_uri': title['cover_image_uri'],
                                 }
                                 logger.info(f'{datetime.now()}:Book found: {str(potential_ol_book)}')
                                 open_lib_array.append(potential_ol_book)
