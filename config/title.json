@@ -1,0 +1,130 @@
+[
+  {
+    "title": "An Absolutely Remarkable Thing",
+    "loc_number": "PS3607.R43285 A27",
+    "dewey_decimal_number": "813.6 GRE",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Annihilation",
+    "loc_number": "PS3572.A4284",
+    "dewey_decimal_number": "813.54 VAN",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Caliban's War",
+    "loc_number": "PS3601.B677 C35",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Abaddon's Gate",
+    "loc_number": "PS3601.B677 A64",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Cibola Burn",
+    "loc_number": "PS3601.B677 C53",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Nemesis Games",
+    "loc_number": "PS3601.B677",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Babylon's Ashes",
+    "loc_number": "PS3601.B677 B33",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Persepolis Rising",
+    "loc_number": "PS3601.B677 P47",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Tiamat's Wrath",
+    "loc_number": "PS3601.B677 T53",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Leviathan Falls",
+    "loc_number": "PS3601.B677 L478",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Everything is Tuberculosis",
+    "loc_number": "RC311.G85",
+    "dewey_decimal_number": "616.995 GRE",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "The Fellowship of the Ring",
+    "loc_number": "PR6039.O32",
+    "dewey_decimal_number": "823.912 TOL",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Leviathan Wakes",
+    "loc_number": "PS3601.B677",
+    "dewey_decimal_number": "813.6 COR",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Lovecraft Country",
+    "loc_number": "PS3568.U3615",
+    "dewey_decimal_number": "813.6 RUF",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "The New Jim Crow",
+    "loc_number": "HV9950.A437",
+    "dewey_decimal_number": "364.973 ALE",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  },
+  {
+    "title": "Pale Blue Dot",
+    "loc_number": "QB500.S24",
+    "dewey_decimal_number": "919.904 SAG",
+    "description": "blank",
+    "price_in_cents": 0,
+    "cover_image_uri": "default"
+  }
+]
