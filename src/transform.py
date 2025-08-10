@@ -56,47 +56,65 @@ def combine_raw_jsons(google_json, ol_json):
         if 'categories' in google_json['book_data'][index]['volumeInfo']:
             categories = ', '.join(google_json['book_data'][index]['volumeInfo']['categories'])
         else:
-            categories = None
+            categories = ''
         
         if 'publisher' in google_json['book_data'][index]['volumeInfo']:
             publisher = str(google_json['book_data'][index]['volumeInfo']['publisher']).translate(replace_quote)
         else:
-            publisher = None
+            publisher = ''
 
         if 'publishedDate' in google_json['book_data'][index]['volumeInfo']:
             published_date = google_json['book_data'][index]['volumeInfo']['publishedDate']
+            if len(published_date) == 4:
+                published_date += '-12-31'
+            elif len(published_date) < 10:
+                published_date = published_date[0:3] + '-12-31'
         else:
-            published_date = None
+            published_date = '9999-12-31'
+
+        lost_date = '9999-12-31'
 
         if 'printType' in google_json['book_data'][index]['volumeInfo']:
             print_type = google_json['book_data'][index]['volumeInfo']['printType']
         else:
-            print_type = None
+            print_type = ''
 
         if 'language' in google_json['book_data'][index]['volumeInfo']:
             language = google_json['book_data'][index]['volumeInfo']['language']
         else:
-            language = None
+            language = ''
 
         if 'pageCount' in google_json['book_data'][index]['volumeInfo']:
             pageCount = google_json['book_data'][index]['volumeInfo']['pageCount']
         else:
             pageCount = 0
         
+        loc_number = ol_json['book_data'][index]['loc_number']
+        dewey_decimal_number = ol_json['book_data'][index]['dewey_decimal_number']
+        description = ol_json['book_data'][index]['description']
+        price_in_cents = ol_json['book_data'][index]['price_in_cents']
+        cover_image_uri = ol_json['book_data'][index]['cover_image_uri']
+
         transformed_dictionary_entry = {
-            'title':           title,
-            'author':          author,
-            'publisher':       publisher,
-            'publishing_date': published_date,
-            'isbn':            isbn,
-            'sort_title':      sort_title,
-            'format':          print_type,
-            'language':        language,
-            'categories':      categories,
-            'page_count':      pageCount,
-            'is_checked_in':   True,
-            'is_archived':     False,
-            'is_lost':         False,
+            'title':                    title,
+            'author':                   author,
+            'publisher':                publisher,
+            'publishing_date':          published_date,
+            'isbn':                     isbn,
+            'sort_title':               sort_title,
+            'format':                   print_type,
+            'language':                 language,
+            'categories':               categories,
+            'page_count':               pageCount,
+            'is_checked_in':            True,
+            'is_archived':              False,
+            'is_lost':                  False,
+            'lost_date':                lost_date,
+            'loc_number':               loc_number,
+            'dewey_decimal_number':     dewey_decimal_number,
+            'description':              description,
+            'price_in_cents':           price_in_cents,
+            'cover_image_uri':          cover_image_uri,
         }
         transformed_dictionary['books'].append(transformed_dictionary_entry)
 
