@@ -5,6 +5,7 @@ import psycopg
 from dotenv import load_dotenv
 from datetime import date, datetime
 import sql_statements
+import random
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ def start():
             books = json.loads(transformed_books.read())
             with conn.cursor() as cur:
                 cur.execute(f'DROP TABLE IF EXISTS Collection_Item') # TODO: REMOVE WHEN TESTING COMPLETED
-                cur.execute(sql_statements.collections_table_creation)
+                cur.execute(sql_statements.collection_item_table_creation)
                 load_transformed_books(cur, books)
             
 
@@ -38,8 +39,13 @@ def load_transformed_books(cursor, books):
                  `collection_item` SQL table
     '''
     for book in books['books']:
-        cursor.execute(sql_statements.collection_insert_statement(book))
-        logger.info(f'{datetime.now()}:Book {book['title']} loaded.')
+        # This simulates a library buying multiple copies of a book.
+        try:
+            for i in range(random.randrange(1, 10)):
+                cursor.execute(sql_statements.collection_insert_statement(book))
+                logger.info(f'{datetime.now()}:Book {book['title']} loaded {i+1} times.')
+        except Exception as err:
+             logger.error(f'{err} at {book.title}')
 
 if __name__ == '__main__':
     print('Loading Started')
