@@ -1,6 +1,10 @@
 # LMS-DB-ETL
 An Extract, Transform, Load app to gather book information from public APIs for a POC LMS project
 
+## ARCHIVED
+Due to [the recent changes to GitHub's indepenence](https://www.theverge.com/news/757461/microsoft-github-thomas-dohmke-resignation-coreai-team-transition), I have moved development of this project to an open source Git hosting service.  
+[New version here](https://gitea.com/NickKalar/LMS-DB-ETL.git)
+
 Environmental Variables:  
 `GOOGLE_API_KEY` - API Key required for using the Google Books API.  
 `DB_NAME`        - The name of the SQL database being used.  
